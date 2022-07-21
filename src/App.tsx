@@ -1,34 +1,42 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import Card from './components/Card';
+import Header from './components/Header';
+import Pagination from './components/Pagination';
+import './index.css';
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+	return (
+		<>
+			<Header />
+			<main className='grid place-items-center py-5 gap-5'>
+				
+				
+				{/* buttons */}
+				<div className='flex items-center gap-4'>
+					<button>All</button>
+					<button>My faves</button>
+				</div>
 
-  return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
-  )
-}
+				{/* filter */}
+				<div className='md:w-[85%]'>
+					<input type="text"  className='border' />
+				</div>
 
-export default App
+				{/* card container */}
+				<div className='grid md:grid-cols-2 gap-5 mt-5 w-[85%] '>
+					{
+						Array.from({ length: 6 }).map((_, i) => (
+							<Card/>
+							)
+						)
+
+					}
+				</div>
+
+				{/* pagination */}
+				<Pagination/>
+			</main>
+		</>
+	);
+};
+
+export default App;
