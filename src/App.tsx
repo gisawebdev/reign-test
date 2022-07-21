@@ -1,6 +1,7 @@
 import Card from './components/Card';
 import Header from './components/Header';
 import Pagination from './components/Pagination';
+import Select from './components/Select';
 import './index.css';
 
 const App = () => {
@@ -16,9 +17,9 @@ const App = () => {
 					<button>My faves</button>
 				</div>
 
-				{/* filter */}
+				{/* Select */}
 				<div className='md:w-[85%]'>
-					<input type="text"  className='border' />
+					<Select/>
 				</div>
 
 				{/* card container */}
