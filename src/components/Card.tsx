@@ -32,7 +32,7 @@ const Card = ({link, title, date, author}: Props) => {
 			<main className="my-2 md:w-[80%]">
 				<h3 className="text-[#6b6b6b]  font-medium line-clamp-2 md:line-clamp-none">{title}</h3>
 			</main>
-			<footer className="absolute bg-[#606060] bg-opacity-[0.06] left-0  bottom-0 w-full md:w-[15%] p-3 md:p-0 md:top-0 md:left-[85%] md:right-0 flex items-center justify-center">
+			<footer className="absolute bg-[#606060] bg-opacity-[0.06] left-0  bottom-0 w-full md:w-[15%] p-5 md:p-0 md:top-0 md:left-[85%] md:right-0 flex items-center justify-center ">
 				<button ref={likeButtonRef} className="heart" onClick={handleClick}/>
 			</footer>
 		</a>

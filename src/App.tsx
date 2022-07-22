@@ -1,35 +1,43 @@
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import Card from './components/Card';
 import Header from './components/Header';
 // import Pagination from './components/Pagination';
 import Select from './components/Select';
+import {Spinner} from './components/Spinner';
 import './index.css';
 
 type Posts = {
 	author: string;
 	created_at: string;
 	objectID: string;
-	title: string;
-	url: string;
+	story_title: string;
+	story_url: string;
 };
 
 const App = () => {
-	// hacker news api
-	const baseUrl = 'https://hn.algolia.com/api/v1/search?query=';
-
-	// posts state
 	const [posts, setPosts] = useState<Posts[]>([]);
-	// query state
-	const [query, setQuery] = useState('react');
+	const [query, setQuery] = useState('');
+	const [isLoading, setIsLoading] = useState(false);
 
-	const getAllPosts = async () => {
-		const response = await fetch(`${baseUrl}react`);
-		const data = await response.json();
+	useEffect(() => {
+		setIsLoading(true);
 
-		setPosts(data.hits);
-	};
+		const fetchData = async () => {
+			const baseUrl = 'https://hn.algolia.com/api/v1/search_by_date?query=';
+			const result = await fetch(
+				`${query === 'Select your news' ? baseUrl : `${baseUrl}${query}`}`,
+			);
+			const data = await result.json();
 
-	getAllPosts();
+			const filteredData = data.hits.filter(
+				(item: Posts) => item.story_title !== null && item.story_url !== null,
+			);
+			setPosts(filteredData);
+		};
+
+		fetchData();
+		setIsLoading(false);
+	}, [query]);
 
 	return (
 		<>
@@ -43,24 +51,30 @@ const App = () => {
 
 				{/* Select */}
 				<div className="md:w-[85%]">
-					<Select />
+					<Select setQuery={setQuery} />
 				</div>
 
 				{/* card container */}
-				<div className="grid md:grid-cols-2 gap-5 mt-5 w-[85%]  max-h-[50vh] overflow-y-scroll scroll-ml-2 overflow-hidden">
-					{posts.map((post) => {
-						const {author, created_at, objectID, title, url} = post;
-						return (
-							<Card
-								key={objectID}
-								link={url}
-								title={title}
-								date={created_at}
-								author={author}
-							/>
-						);
-					})}
-				</div>
+
+				{isLoading ? (
+					<Spinner />
+				) : (
+					<div className="grid md:grid-cols-2 gap-5 mt-5 w-[85%]  max-h-[50vh] overflow-y-scroll scroll-ml-2 overflow-hidden">
+						{posts.map((post) => {
+							const {author, created_at, objectID, story_title, story_url} =
+								post;
+							return (
+								<Card
+									key={objectID}
+									link={story_url}
+									title={story_title}
+									date={created_at}
+									author={author}
+								/>
+							);
+						})}
+					</div>
+				)}
 			</main>
 		</>
 	);

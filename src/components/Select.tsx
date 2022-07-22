@@ -29,11 +29,21 @@ function classNames(...classes: string[]) {
 	return classes.filter(Boolean).join(' ');
 }
 
-const Select = () => {
+interface Props {
+	setQuery: (query: string) => void;
+}
+
+const Select = ({setQuery}: Props) => {
 	const [selected, setSelected] = useState(options[0]);
 
 	return (
-		<Listbox value={selected} onChange={setSelected}>
+		<Listbox
+			value={selected}
+			onChange={(news) => {
+				setSelected(news);
+				setQuery(news.news);
+			}}
+		>
 			{({open}) => (
 				<>
 					<div className="mt-1 relative">
