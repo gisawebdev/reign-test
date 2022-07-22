@@ -1,4 +1,5 @@
 import {useEffect, useState} from 'react';
+import { Tab } from '@headlessui/react'
 import Card from './components/Card';
 import Header from './components/Header';
 // import Pagination from './components/Pagination';
@@ -41,25 +42,28 @@ const App = () => {
 
 	return (
 		<>
-			<Header />
-			<main className="grid place-items-center py-5 gap-5">
-				{/* buttons */}
-				<div className="flex items-center gap-4">
-					<button>All</button>
-					<button>My faves</button>
-				</div>
 
+			<Header />
+<Tab.Group >
+			<main className="grid place-items-center py-5 gap-5">
+      <Tab.List className="flex items-center gap-4">
+        <Tab>All</Tab>
+        <Tab>My faves</Tab>
+      
+      </Tab.List>
+			
 				{/* Select */}
-				<div className="md:w-[85%]">
+				<div className="md:w-[75%]">
 					<Select setQuery={setQuery} />
 				</div>
-
-				{/* card container */}
+      <Tab.Panels className="w-[75%]">
+        <Tab.Panel>
+					{/* card container */}
 
 				{isLoading ? (
 					<Spinner />
 				) : (
-					<div className="grid md:grid-cols-2 gap-5 mt-5 w-[85%]  max-h-[50vh] overflow-y-scroll scroll-ml-2 overflow-hidden">
+					<div className="grid md:grid-cols-2 gap-5 mt-5  max-h-[50vh] overflow-y-scroll scroll-ml-2 overflow-hidden p-1 md:p-0">
 						{posts.map((post) => {
 							const {author, created_at, objectID, story_title, story_url} =
 								post;
@@ -75,7 +79,17 @@ const App = () => {
 						})}
 					</div>
 				)}
-			</main>
+				</Tab.Panel>
+        <Tab.Panel>Content 2</Tab.Panel>
+      
+      </Tab.Panels>
+				</main>
+    </Tab.Group>
+				{/* buttons */}
+				
+
+
+				
 		</>
 	);
 };
