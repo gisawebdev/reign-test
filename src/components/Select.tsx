@@ -11,17 +11,17 @@ const options = [
 	{
 		id: 2,
 		news: 'Angular',
-		img: 'src/assets/angular.png',
+		img: 'src/assets/images/angular.png',
 	},
 	{
 		id: 3,
 		news: 'React',
-		img: 'src/assets/react.png',
+		img: 'src/assets/images/react.png',
 	},
 	{
 		id: 4,
 		news: 'Vue',
-		img: 'src/assets/vue.png',
+		img: 'src/assets/images/vue.png',
 	},
 ];
 
@@ -39,11 +39,16 @@ const Select = () => {
 					<div className="mt-1 relative">
 						<Listbox.Button className="relative w-52 bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
 							<span className="flex items-center">
-								<img
-									src={selected.img}
-									alt=""
-									className="flex-shrink-0 h-6 w-6 "
-								/>
+								{selected.img === '' ? (
+									''
+								) : (
+									<img
+										src={selected.img}
+										alt="logo"
+										loading="lazy"
+										className="flex-shrink-0 h-6 w-6 "
+									/>
+								)}
 								<span className="ml-3 block truncate">{selected.news}</span>
 							</span>
 							<span className="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
@@ -76,11 +81,15 @@ const Select = () => {
 										{({selected, active}) => (
 											<>
 												<div className="flex items-center">
-													<img
-														src={option.img}
-														alt=""
-														className="flex-shrink-0 h-6 w-6 "
-													/>
+													{option.img === '' ? (
+														''
+													) : (
+														<img
+															src={option.img}
+															alt=""
+															className="flex-shrink-0 h-6 w-6 "
+														/>
+													)}
 													<span
 														className={classNames(
 															selected ? 'font-semibold' : 'font-normal',
