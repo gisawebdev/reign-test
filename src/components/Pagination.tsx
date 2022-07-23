@@ -15,7 +15,7 @@ const Pagination = ({currentPage, pages, setCurrentPage}: Props) => {
 			forcePage={currentPage}
 			pageCount={pages}
 			renderOnZeroPageCount={() => null}
-			onPageChange={(page) => setCurrentPage(page.selected + 1)}
+			onPageChange={(page) => setCurrentPage(page.selected)}
 			className="flex justify-center items-center gap-5 w-full mt-5"
 			activeClassName=" transition- ease-in duration-300 bg-cyan-400 text-white p-2 rounded-full hover:bg-cyan-600"
 			previousClassName="transition ease-in duration-300 rounded-full hover:bg-gray-200"
