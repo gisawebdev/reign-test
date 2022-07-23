@@ -1,3 +1,4 @@
+import React from 'react'
 const Header = () => {
 	return (
 		<header className="grid place-items-center py-10 bg-gradient-to-b from-[#ececec]  to-white shadow">
