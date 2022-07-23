@@ -13,19 +13,19 @@ const options = [
 		id: 2,
 		news: 'Angular',
 		query: 'angular',
-		img: 'src/assets/images/angular.png',
+		img: '/assets/images/angular.png',
 	},
 	{
 		id: 3,
 		news: 'React',
 		query: 'react',
-		img: 'src/assets/images/react.png',
+		img: '/assets/images/react.png',
 	},
 	{
 		id: 4,
 		news: 'Vue',
 		query: 'vue',
-		img: 'src/assets/images/vue.png',
+		img: '/assets/images/vue.png',
 	},
 ];
 
