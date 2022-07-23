@@ -1,19 +1,24 @@
 import {ClockIcon} from '@heroicons/react/outline';
+import classNames from 'classnames';
 import {useRef, MouseEventHandler} from 'react';
+
+import TimeAgo from 'timeago-react';
 
 interface Props {
 	link: string;
 	title: string;
 	date: string;
 	author: string;
+	onLikeClick: () => void;
+	liked: boolean;
 }
 
-const Card = ({link, title, date, author}: Props) => {
+const Card = ({link, title, date, author, onLikeClick, liked}: Props) => {
 	const likeButtonRef = useRef<HTMLButtonElement>(null);
 
 	const handleClick: MouseEventHandler<HTMLButtonElement> = (event) => {
 		event.stopPropagation();
-		likeButtonRef.current!.classList.toggle('on-click');
+		onLikeClick();
 	};
 
 	return (
@@ -26,7 +31,7 @@ const Card = ({link, title, date, author}: Props) => {
 			<header className="flex items-center gap-3 text-[#767676] text-[0.68rem] font-normal">
 				<ClockIcon className="w-5" />
 				<span>
-					{date} by {author}
+					<TimeAgo datetime={date} locale="en_US" /> by {author}
 				</span>
 			</header>
 			<main className="my-2 md:w-[80%]">
@@ -35,7 +40,13 @@ const Card = ({link, title, date, author}: Props) => {
 				</h3>
 			</main>
 			<footer className="absolute bg-[#606060] bg-opacity-[0.06] left-0  bottom-0 w-full md:w-[15%] p-5 md:p-0 md:top-0 md:left-[85%] md:right-0 flex items-center justify-center ">
-				<button ref={likeButtonRef} className="heart" onClick={handleClick} />
+				<button
+					ref={likeButtonRef}
+					className={classNames('heart', {
+						'on-click': liked,
+					})}
+					onClick={handleClick}
+				/>
 			</footer>
 		</div>
 	);

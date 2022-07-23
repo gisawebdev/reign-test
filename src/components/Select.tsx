@@ -6,21 +6,25 @@ const options = [
 	{
 		id: 1,
 		news: 'Select your news',
+		query: '',
 		img: '',
 	},
 	{
 		id: 2,
 		news: 'Angular',
+		query: 'angular',
 		img: 'src/assets/images/angular.png',
 	},
 	{
 		id: 3,
 		news: 'React',
+		query: 'react',
 		img: 'src/assets/images/react.png',
 	},
 	{
 		id: 4,
 		news: 'Vue',
+		query: 'vue',
 		img: 'src/assets/images/vue.png',
 	},
 ];
@@ -30,18 +34,21 @@ function classNames(...classes: string[]) {
 }
 
 interface Props {
+	query: string;
 	setQuery: (query: string) => void;
 }
 
-const Select = ({setQuery}: Props) => {
-	const [selected, setSelected] = useState(options[0]);
+const Select = ({query, setQuery}: Props) => {
+	const [selected, setSelected] = useState(
+		options.find((item) => item.query === query) ?? options[0],
+	);
 
 	return (
 		<Listbox
 			value={selected}
 			onChange={(news) => {
 				setSelected(news);
-				setQuery(news.news);
+				setQuery(news.query);
 			}}
 		>
 			{({open}) => (
