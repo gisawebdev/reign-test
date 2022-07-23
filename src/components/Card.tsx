@@ -1,7 +1,6 @@
 import {ClockIcon} from '@heroicons/react/outline';
 import classNames from 'classnames';
 import {useRef, MouseEventHandler} from 'react';
-
 import TimeAgo from 'timeago-react';
 
 interface Props {

@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-import { useLocalStorage } from "usehooks-ts";
-import { fetchData } from "../helpers/getPosts";
-import { Posts } from "../types";
+import {useEffect, useState} from 'react';
+import {useLocalStorage} from 'usehooks-ts';
+import {fetchData} from '../helpers/getPosts';
+import {Posts} from '../types';
 
 export const usePosts = () => {
-  const [posts, setPosts] = useState<Posts[]>([]);
+	const [posts, setPosts] = useState<Posts[]>([]);
 	const [query, setQuery] = useLocalStorage('query', '');
 	const [isLoading, setIsLoading] = useState(false);
 	const [favoritePosts, setFavoritePosts] = useLocalStorage<Posts[]>(
@@ -12,11 +12,14 @@ export const usePosts = () => {
 		[],
 	);
 
+	const [currentPage, setCurrentPage] = useState(0);
+	const [pages, setPages] = useState(0);
+
 	useEffect(() => {
 		setIsLoading(true);
 
-		fetchData(query)
-			.then(({data}) => {
+		fetchData(query, currentPage)
+			.then(({data, nbPages}) => {
 				const res = data.map((item: Posts) => {
 					return {
 						...item,
@@ -27,11 +30,12 @@ export const usePosts = () => {
 				});
 
 				setPosts(res);
+				setPages(nbPages);
 			})
 			.finally(() => {
 				setIsLoading(false);
 			});
-	}, [query]);
+	}, [query, currentPage]);
 
 	const handleLikedClick = ({
 		liked,
@@ -60,12 +64,15 @@ export const usePosts = () => {
 		});
 	};
 
-  return {
-    posts,
-    query,
-    setQuery,
-    isLoading,
-    handleLikedClick,
-    favoritePosts
-  };
-}
+	return {
+		posts,
+		query,
+		setQuery,
+		isLoading,
+		handleLikedClick,
+		favoritePosts,
+		currentPage,
+		setCurrentPage,
+		pages,
+	};
+};
