@@ -1,4 +1,4 @@
-import {Posts} from '../App';
+import { Posts } from "../types";
 
 export const fetchData = async (query: string, page: number = 0) => {
 	const baseUrl = `http://hn.algolia.com/api/v1/search_by_date?query=${query}&page=${page}`;

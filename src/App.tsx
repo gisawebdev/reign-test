@@ -1,22 +1,16 @@
-import {useEffect, useState} from 'react';
 import {Tab} from '@headlessui/react';
+import classNames from 'classnames';
+import {useEffect, useState} from 'react';
+import {useLocalStorage} from 'usehooks-ts';
 import Card from './components/Card';
 import Header from './components/Header';
 import Select from './components/Select';
 import {Spinner} from './components/Spinner';
-import './index.css';
-import {useLocalStorage} from 'usehooks-ts';
 import {fetchData} from './helpers/getPosts';
+// import {usePosts} from './hooks/usePosts';
+import './index.css';
+import {Posts} from './types';
 import ReactPaginate from 'react-paginate';
-
-export type Posts = {
-	author: string;
-	created_at: string;
-	objectID: string;
-	story_title: string;
-	story_url: string;
-	liked: boolean;
-};
 
 const App = () => {
 	const [posts, setPosts] = useState<Posts[]>([]);
@@ -27,11 +21,14 @@ const App = () => {
 		[],
 	);
 
+	const [currentPage, setCurrentPage] = useState(0);
+	const [pages, setPages] = useState(0);
+
 	useEffect(() => {
 		setIsLoading(true);
 
-		fetchData(query)
-			.then(({data}) => {
+		fetchData(query, currentPage)
+			.then(({data, nbPages}) => {
 				const res = data.map((item: Posts) => {
 					return {
 						...item,
@@ -42,11 +39,12 @@ const App = () => {
 				});
 
 				setPosts(res);
+				setPages(nbPages);
 			})
 			.finally(() => {
 				setIsLoading(false);
 			});
-	}, [query]);
+	}, [query, currentPage]);
 
 	const handleLikedClick = ({
 		liked,
@@ -148,8 +146,20 @@ const App = () => {
 						</Tab.Panel>
 					</Tab.Panels>
 				</main>
+				<ReactPaginate
+					nextLabel=">"
+					previousLabel="<"
+					breakLabel="..."
+					forcePage={currentPage}
+					pageCount={pages}
+					renderOnZeroPageCount={() => null}
+					onPageChange={(page) => setCurrentPage(page.selected + 1)}
+					className="flex justify-center items-center gap-5 w-full mt-5"
+					activeClassName=" transition- ease-in duration-300 bg-cyan-400 text-white p-2 rounded-full hover:bg-cyan-600"
+					previousClassName="transition ease-in duration-300 rounded-full hover:bg-gray-200"
+					nextClassName="transition ease-in duration-300 rounded-full hover:bg-gray-200"
+				/>
 			</Tab.Group>
-			{/* buttons */}
 		</>
 	);
 };
